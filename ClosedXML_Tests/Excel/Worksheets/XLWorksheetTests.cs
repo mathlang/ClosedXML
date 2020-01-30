@@ -1112,5 +1112,28 @@ namespace ClosedXML_Tests
                 Assert.AreEqual(3, (ws as XLWorksheet).Internals.CellsCollection.MaxRowUsed);
             }
         }
+
+        [Test]
+        public void ChangeColumnStyleFirst()
+        {
+            using (var wb = new ClosedXML.Excel.XLWorkbook())
+            {
+                var ws1 = wb.AddWorksheet("ColumnFirst");
+
+                ws1.Column(2).Style.Font.SetBold(true);
+                ws1.Row(2).Style.Font.SetItalic(true);
+
+                var ws2 = wb.AddWorksheet("RowFirst");
+
+                ws2.Row(2).Style.Font.SetItalic(true);
+                ws2.Column(2).Style.Font.SetBold(true);
+
+                Assert.IsTrue(ws1.Cell("B2").Style.Font.Bold);
+                Assert.IsTrue(ws1.Cell("B2").Style.Font.Italic);
+
+                Assert.IsTrue(ws2.Cell("B2").Style.Font.Bold);
+                Assert.IsTrue(ws2.Cell("B2").Style.Font.Italic);
+            }
+        }
     }
 }
