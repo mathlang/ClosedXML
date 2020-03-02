@@ -125,8 +125,14 @@ namespace ClosedXML.Excel.CalcEngine
                 return ts.TotalDays;
             }
 
+            // handle string
+            if (v is string s && double.TryParse(s, out var doubleValue))
+            {
+                return doubleValue;
+            }
+
             // handle nulls
-            if (v == null || v is string)
+            if (v == null)
             {
                 return 0;
             }
