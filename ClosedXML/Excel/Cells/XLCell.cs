@@ -443,8 +443,10 @@ namespace ClosedXML.Excel
                 cAddress = fA1;
             }
 
-            if (Worksheet.Workbook.Worksheets.Contains(sName)
-                && XLHelper.IsValidA1Address(cAddress))
+            if (Worksheet.Workbook.WorksheetsInternal.Any<XLWorksheet>(
+                w => String.Compare(w.Name, sName, true) == 0)
+                && XLHelper.IsValidA1Address(cAddress)
+                )
             {
                 try
                 {
@@ -466,7 +468,10 @@ namespace ClosedXML.Excel
             {
                 IsEvaluating = true;
 
-                if (Worksheet.Workbook.Worksheets.Contains(sName)
+                if (Worksheet
+                        .Workbook
+                        .WorksheetsInternal
+                        .Any<XLWorksheet>(w => String.Compare(w.Name, sName, true) == 0)
                     && XLHelper.IsValidA1Address(cAddress))
                 {
                     var referenceCell = Worksheet.Workbook.Worksheet(sName).Cell(cAddress);
